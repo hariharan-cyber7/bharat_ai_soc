@@ -115,6 +115,38 @@ for c in ['crazing','inclusion','patches','pitted_surface','rolled-in_scale','sc
 
 ```
 
+README.md
+```
+markdown
+# On-device Steel Surface Defect Detector
+**Bharat AI-SoC Challenge 2026-27 - PS5: Real-time industrial defect detection & quality-control assistant**
+
+A lightweight MobileNetV3-Small model that classifies six steel-surface defects
+(crazing, inclusion, patches, pitted surface, rolled-in scale, scratches) and
+localises the defect with Grad-CAM, small enough for edge/Arm deployment.
+
+## Dataset
+NEU-DET, 1,440 train / 360 validation images:
+https://www.kaggle.com/datasets/kaustubhdikshit/neu-surface-defect-database
+
+## Quick start
+```bash
+pip install -r requirements.txt
+python train.py --data /path/to/NEU-DET
+python app.py
+```
+`train.py` writes `best.pt`, `confusion_matrix.png`, `metrics.json`, `defect_model.onnx`
+and (if `executorch` is installed) `defect_model.pte`.
+
+## Pipeline
+image -> grayscale/resize 224 -> MobileNetV3-Small -> class + confidence -> Grad-CAM -> heatmap + box -> QC verdict
+
+## Edge deployment
+Exports to ONNX and ExecuTorch (XNNPACK) for Arm CPUs.
+
+## Results
+Validation accuracy: __%  |  CPU latency: __ ms  |  Model size: __ MB
+```
 16. GitHub repo "About" tags
 
 edge-ai defect-detection mobilenetv3 pytorch arm executorch industrial-ai computer-vision
